@@ -70,6 +70,15 @@ func postTodo(w http.ResponseWriter, r *http.Request) {
 	title := r.PostForm.Get("title")
 	text := r.PostForm.Get("text")
 
+	if title == "" {
+		http.Error(w, "cannot be blank", http.StatusInternalServerError)
+		return
+	}
+	if text == "" {
+		http.Error(w, "cannot be blank", http.StatusInternalServerError)
+		return
+	}
+
 	_, err = models.InsertTodo(title, text)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
